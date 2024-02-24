@@ -1,7 +1,17 @@
-# Vue 3 + Vite
+## Book Management System
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+### Run
+#### Run in local
+1. install dependencies: `npm install1`
+2. run the code: `npm run dev`
+3. open browser and enter url `http://127.0.0.1:5173/`
 
-## Recommended IDE Setup
+#### Run in Docker
+1. build Docker `docker build -t book-management-system .`
+2. run Docker `docker run -d --name book-management-system -p 80:80 book-management-system:latest`
+3. open browser and enter url `http://127.0.0.1/`
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+### TODO
+* Deploy in cloud platform
+* Add Unit Tests
+* Fuzzy search
