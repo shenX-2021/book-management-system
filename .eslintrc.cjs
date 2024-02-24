@@ -52,12 +52,11 @@ module.exports = {
     'key-spacing': 'error',
     'arrow-spacing': 'error',
     'object-curly-spacing': ['error', 'always'],
-    // 'no-console': 'error',
+    'no-console': 'warn',
     'no-trailing-spaces': 'error',
     'keyword-spacing': 'error',
     'space-infix-ops': 'error',
     'no-multiple-empty-lines': 'error',
-    'no-console': 'error',
     'vue/return-in-computed-property': 'off',
   },
 };

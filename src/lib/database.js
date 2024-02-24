@@ -25,7 +25,7 @@ const BOOKS = [
   },
 ];
 
-export class BookEntity {
+class BookEntity {
   /**
    * init database, and add init book data
    * @returns undefined
@@ -57,7 +57,7 @@ export class BookEntity {
       // database upgrade callback
       request.onupgradeneeded = (event) => {
         console.log('onupgradeneeded');
-        this.db = event.target.result; // 数据库对象
+        this.db = event.target.result;
         let objectStore;
 
         objectStore = this.db.createObjectStore(BookEntity.STORE_NAME, {
@@ -90,7 +90,7 @@ export class BookEntity {
 
       const objectStore = this.db
         .transaction(BookEntity.STORE_NAME)
-        .objectStore(BookEntity.STORE_NAME).objectStore;
+        .objectStore(BookEntity.STORE_NAME);
 
       objectStore.openCursor().onsuccess = (event) => {
         const cursor = event.target.result;
@@ -118,7 +118,6 @@ export class BookEntity {
         // todo: error handle
       };
       request.onsuccess = () => {
-        // 对 request.result 做些操作！
         console.log(`id [${id}] result:`, request.result);
         resolve(request.result);
       };
@@ -145,7 +144,8 @@ export class BookEntity {
         // todo: error handle
       };
 
-      const objectStore = transaction.objectStore('customers');
+      console.log(book);
+      const objectStore = transaction.objectStore(BookEntity.STORE_NAME);
       const request = objectStore.add(book);
       request.onerror = () => {
         // todo: error handle
@@ -170,8 +170,39 @@ export class BookEntity {
       };
     });
   }
+
+  /**
+   * edit book by id
+   * @param {number} id book id
+   * @param {book} id book data
+   * @returns undefined
+   */
+  editById(id, book) {
+    return new Promise((resolve) => {
+      const objectStore = this.db
+        .transaction([BookEntity.STORE_NAME], 'readwrite')
+        .objectStore(BookEntity.STORE_NAME);
+      const request = objectStore.get(id);
+      request.onerror = () => {
+        // todo: error handle
+      };
+      request.onsuccess = () => {
+        // make sure not change other book data
+        const data = Object.assign({}, book, { id });
+        const requestUpdate = objectStore.put(data);
+        requestUpdate.onerror = () => {
+          // todo: error handle
+        };
+        requestUpdate.onsuccess = () => {
+          resolve();
+        };
+      };
+    });
+  }
 }
 
 BookEntity.DB_NAME = 'Book';
 BookEntity.DB_VERSION = 3;
 BookEntity.STORE_NAME = 'ook';
+
+export const bookEntity = new BookEntity();
