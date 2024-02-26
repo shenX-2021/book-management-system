@@ -2,7 +2,7 @@
 
 ### Run
 #### Run in local
-1. install dependencies: `npm install1`
+1. install dependencies: `npm install`
 2. run the code: `npm run dev`
 3. open browser and enter url `http://127.0.0.1:5173/`
 

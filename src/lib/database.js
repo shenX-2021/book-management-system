@@ -86,20 +86,12 @@ class BookEntity {
    */
   findAll() {
     return new Promise((resolve) => {
-      const books = [];
-
       const objectStore = this.db
         .transaction(BookEntity.STORE_NAME)
         .objectStore(BookEntity.STORE_NAME);
 
-      objectStore.openCursor().onsuccess = (event) => {
-        const cursor = event.target.result;
-        if (cursor) {
-          books.push(cursor.value);
-          cursor.continue();
-        } else {
-          resolve(books);
-        }
+      objectStore.getAll().onsuccess = (event) => {
+        resolve(event.target.result || []);
       };
     });
   }
@@ -203,6 +195,6 @@ class BookEntity {
 
 BookEntity.DB_NAME = 'Book';
 BookEntity.DB_VERSION = 3;
-BookEntity.STORE_NAME = 'ook';
+BookEntity.STORE_NAME = 'book';
 
 export const bookEntity = new BookEntity();
