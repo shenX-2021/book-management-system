@@ -1,11 +1,11 @@
 <template>
   <div class="container">
     <n-space class="pb20">
-      <n-input-number
-        v-model:value="formData.id"
+      <n-input
+        v-model:value="formData.name"
         clearable
         :show-button="false"
-        placeholder="Search By ID"
+        placeholder="Search By Name"
       />
 
       <n-button type="info" @click="search"> Search </n-button>
@@ -21,21 +21,21 @@
   <add-or-edit-book
     mode="add"
     v-model:show="isShowAdd"
-    @update-books="searchAll"
+    @update-books="search"
   />
   <add-or-edit-book
     mode="edit"
     :book="editBook"
     v-model:show="isShowEdit"
-    @update-books="searchAll"
+    @update-books="search"
   />
 </template>
 
 <script setup>
 import AddOrEditBook from './components/AddOrEditBook.vue';
 import { NButton, NSpace, NPopconfirm } from 'naive-ui';
-import { bookEntity } from './lib/database';
 import { h, ref, reactive } from 'vue';
+import { deleteApi, listApi } from './http';
 
 // table prop
 const columns = [
@@ -110,7 +110,7 @@ const columns = [
 const pagination = ref(false);
 const data = ref([]);
 const formData = reactive({
-  id: null,
+  name: '',
 });
 
 // add book prop
@@ -120,39 +120,24 @@ const isShowAdd = ref(false);
 const isShowEdit = ref(false);
 const editBook = ref();
 
-// search by id
-async function search() {
-  if (formData.id !== null) {
-    const book = await bookEntity.findById(formData.id);
-    if (book) {
-      data.value = [book];
-    } else {
-      data.value = [];
-    }
-  } else {
-    await searchAll();
-  }
-}
-
 // add book data
 async function add() {
   isShowAdd.value = true;
 }
 
 // serach all book
-async function searchAll() {
-  data.value = await bookEntity.findAll();
+async function search() {
+  data.value = await listApi(formData);
 }
 
 // delete book by id, and refresh book data
 async function del(id) {
-  await bookEntity.delById(id);
-  await searchAll();
+  await deleteApi(id);
+  await search();
 }
 
 async function onCreated() {
-  await bookEntity.init();
-  await searchAll();
+  await search();
 }
 onCreated();
 </script>

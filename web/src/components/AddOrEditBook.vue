@@ -61,7 +61,7 @@
 
 <script setup>
 import { defineProps, defineEmits, watch, reactive, toRaw } from 'vue';
-import { bookEntity } from '../lib/database';
+import { createApi, editApi } from '../http';
 
 const MODE = {
   EDIT: 'edit',
@@ -129,9 +129,10 @@ async function onPositiveClick() {
     if (!errors) {
       // handle with different mode
       if (props.mode === MODE.ADD) {
-        await bookEntity.add(toRaw(formData));
+        // await bookEntity.add(toRaw(formData));
+        await createApi(toRaw(formData));
       } else {
-        await bookEntity.editById(formData.id, toRaw(formData));
+        await editApi(formData.id, toRaw(formData));
       }
 
       emit('update:show', false);
