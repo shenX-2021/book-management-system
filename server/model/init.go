@@ -1,7 +1,7 @@
 package model
 
 func initDB() {
-	if isExist := db.Migrator().HasTable(&BookData{}); !isExist {
+	if !db.Migrator().HasTable(&BookData{}) {
 		db.Migrator().CreateTable(&BookData{})
 
 		// 初始化数据
@@ -12,5 +12,9 @@ func initDB() {
 			&BookData{Name: "Naissance Du Purgatoire", Author: "Le Jacques, Goff", ISBN: 9782070326440, Published: "1991-09-01"},
 		}
 		db.Create(initBookDataList)
+	}
+
+	if !db.Migrator().HasTable(&User{}) {
+		db.Migrator().CreateTable(&User{})
 	}
 }

@@ -6,6 +6,7 @@ import (
 
 type Router struct {
 	BookRouter
+	UserRouter
 }
 
 func InitRouter() *gin.Engine {
@@ -15,6 +16,7 @@ func InitRouter() *gin.Engine {
 	var router = new(Router)
 
 	router.InitBookRouter(group)
+	router.InitUserRouter(group)
 
 	return r
 }

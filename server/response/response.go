@@ -10,7 +10,7 @@ import (
 )
 
 // 获取校验的错误信息
-func GetValidateErrMsg(err error, dto interface{}) string {
+func getValidateErrMsg(err error, dto interface{}) string {
 	dtoType := reflect.TypeOf(dto)
 
 	if errs, ok := err.(validator.ValidationErrors); ok {
@@ -27,7 +27,7 @@ func GetValidateErrMsg(err error, dto interface{}) string {
 
 // 参数校验识别返回
 func ValidateError(c *gin.Context, err error, dto interface{}) {
-	c.String(http.StatusBadRequest, GetValidateErrMsg(err, dto))
+	c.String(http.StatusBadRequest, getValidateErrMsg(err, dto))
 }
 
 func BadRequest(c *gin.Context, str string) {

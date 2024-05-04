@@ -27,7 +27,7 @@ func (ctrl *BookCtrl) Create(c *gin.Context) {
 			c.String(http.StatusBadRequest, "已存在相同ISBN的书籍")
 			return
 		}
-		fmt.Printf("新增书籍失败: %v", err)
+		fmt.Printf("新增书籍失败: %v\n", err)
 		c.String(http.StatusInternalServerError, "新增书籍失败，系统异常")
 		return
 	}
@@ -47,6 +47,7 @@ func (ctrl *BookCtrl) List(c *gin.Context) {
 	c.JSON(http.StatusOK, list)
 }
 
+// 编辑图书信息
 func (ctrl *BookCtrl) Edit(c *gin.Context) {
 	var dto *dto.EdtiBookDataDto
 	idStr := c.Param("id")
